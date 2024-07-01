@@ -23,7 +23,7 @@ services:
        - .env
      ports:
        - "8000:8000"
-     command: poetry run python main.py
+     command: poetry run python src/main.py
      networks:
        - base_network
      depends_on:
@@ -33,11 +33,15 @@ services:
         condition: service_healthy
 
   minio:
-    image: minio/minio
-    env_file:
-      - .env
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_SERVER_URL=http://127.0.0.1:9000
     volumes:
       - ./minio_data:/var/lib/minio/data
+    container_name: minio
+    hostname: 127.0.0.1
     ports:
       - "9000:9000"
       - "9001:9001"
