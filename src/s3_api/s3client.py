@@ -23,6 +23,6 @@ class S3Client:
         object_name = file.filename
         try:
             file_content = await file.read()
-            await self.client.put_object(Bucket=self.bucket_name, Key=object_name, Body=file_content)
+            uploaded_file = await self.client.put_object(Bucket=self.bucket_name, Key=object_name, Body=file_content)
         except ClientError as err:
             logger.error(f'Error uploading file {object_name}: {err}')
